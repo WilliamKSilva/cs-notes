@@ -22,7 +22,7 @@ the described below to deal with process.
 
 - Create: You need a way to create new process, like the one
 that is executed when you double click an App icon.
-- Destroy: Some process quit by alone without you to do nothing,
+- Destroy: Some process quit by themselves without you need to do nothing,
 but sometimes you maybe will need to quit the program by yourself,
 so a command for that is pretty good.
 - Wait: Maybe you will need to wait a process to stop running.
@@ -51,18 +51,18 @@ so the programs can read from the terminal and write to the screen.
 A process can have different states:
 
 - Running: the process is running on the processor, executing instructions.
-- Ready: the process is ready to run but the OS is not chosed to run the process
+- Ready: the process is ready to run but the OS not chosed to run the process
 at the moment.
 - Blocked: in this process the process has initialized some sort of process that
-take a time to be done, like an I/O operation to the disk or a wait for a network package.
+take a time to be done, like an I/O operation to the disk or a network package call.
 So this process become blocked and give the CPU space to another process to run.
 
 ## Data Structures
 
-The OS needs an way to track that kind of information, like the state of each process.
+- The OS needs an way to track that kind of information, like the state of each process.
 For that kind of thing the OS uses some Data Structures like a process list to keep track
 of each process that is running or a blocked process for example.
-OS has an register context for example, that is responsible of keep tracking of stopped
+- OS has an register context for example, that is responsible of keep tracking of stopped
 processes CPU registers content. Saving that kind of information provides a way to restore
 this content on the physical register again and resume running the process that was blocked.
 This is called Context Switch.
