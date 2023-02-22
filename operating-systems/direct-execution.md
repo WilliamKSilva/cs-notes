@@ -54,3 +54,55 @@ thus does is to tell the hardware what code to run when certain excep-
 tional events occur. For example, what code should run when a hard-
 disk interrupt takes place, when a keyboard interrupt occurs, or when
 a program makes a system call? The OS informs the hardware of the"
+
+### Problem #2: Switching Between Processes
+
+- If a process is running on the CPU, that means that the OS is not
+running on the CPU. If the OS is not running how can we switch process?
+
+## A cooperative Approach: Wait For System Calls
+
+- A process run on the CPU and if is running for too long, give up
+the CPU so the OS can decide what to do.
+- The process is always transfering control to the OS using system calls,
+so basically there is like a "command" on systems like that to just pass
+the control to the OS.
+- When the application do something illegal like accessing memory that shouldn't
+be accessed the control is passed to the OS by a trap call.
+
+But what if the process get stuck on a infinite loop and not make a system call?
+Well my friend, the machine will have to reboot :P.
+
+## A Non-Cooperative Approach: The OS Takes Control
+
+How can we regain control over the system if the process running on
+the CPU does not help?
+
+- The response is using a Timer Interrupt device!
+- A timer device can be used to raise an interrupt action at certain times that calls
+the active running process to stop and so the OS can regain the control over the CPU.
+- The OS has to inform the hardware of which code to run when the interrupt is called.
+This is done at boot time, like with the system calls.
+
+"Note that the hardware has some responsibility when an interrupt oc-
+curs, in particular to save enough of the state of the program that was
+running when the interrupt occurred such that a subsequent return-from-
+trap instruction will be able to resume the running program correctly.
+This set of actions is quite similar to the behavior of the hardware during
+an explicit system-call trap into the kernel, with various registers thus
+getting saved (e.g., onto a kernel stack) and thus easily restored by the
+return-from-trap instruction."
+
+
+### Saving and Restoring Context
+
+Now the OS has to made a decision, continue running the
+currently process or switch to another?
+
+- The scheduler is in charge of doing that kind of decision.
+- If the decission is to switch, we call a "context switch"
+operation. The system save some registers values for the currently
+process (kernel stack) and restore some values to from the soon-to-be-executing
+process. To save the context of the currently running process the OS saves
+some registers, PC, and kernel stack pointer of the currently-running process. Also
+switch to the kernel stack for the soon-to-be-executing process.
